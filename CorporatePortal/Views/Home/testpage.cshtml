@@ -1,0 +1,86 @@
+﻿@using System.Security.Claims
+@using CorporatePortal.Models
+@inject Database _database
+
+@{
+    ViewBag.Title = "Тестирование";
+    ViewBag.HeaderTitle = "Тестирование";
+    Layout = "_Layout";
+
+    var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+    var testResults = _database.GetTestResultsByUser(userId);
+    var test1Result = testResults.FirstOrDefault(tr => tr.TestId == 1);
+    var maxScore = test1Result?.Test?.Questions?.Count * 5 ?? 15;
+    var percentage = test1Result != null && maxScore > 0 ?
+        (int)Math.Round((double)test1Result.Score / maxScore * 100) : 0;
+}
+
+<div class="test-page-container">
+    <div class="container-with-button">
+        <h1>Список тестов</h1>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary back-button">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+    </div>
+
+    <div class="test-list">
+        <div class="test-item card">
+            @if (test1Result != null)
+            {
+                <div class="test-content">
+                    <h3>Тест 1</h3>
+                    <p class="test-description">Знакомство с инструментами</p>
+
+                    @if (test1Result.IsCompleted)
+                    {
+                        <div class="test-status">
+                            <div class="score-display">
+                                <span>Результат: @test1Result.Score из @maxScore</span>
+                                <span class="percentage">@percentage%</span>
+                            </div>
+                            @if (percentage >= 70)
+                            {
+                                <div class="status-badge passed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Пройден</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="status-badge failed">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>Не пройден</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else if (test1Result.IsFailedByTime)
+                    {
+                        <div class="status-badge failed">
+                            <i class="fas fa-clock"></i>
+                            <span>Время вышло</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="status-badge in-progress">
+                            <i class="fas fa-spinner"></i>
+                            <span>В процессе</span>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="StartTest" asp-route-testId="1" class="test-link">
+                    <h3>Тест 1</h3>
+                    <p class="test-description">Знакомство с инструментами</p>
+                    <div class="start-test-btn">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Начать тест</span>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</div>
