@@ -1,0 +1,112 @@
+﻿<div class="test-container">
+    <div class="timer mb-3">
+        Осталось времени: <span id="time">@Model.TimeLeft.ToString(@"mm\:ss")</span>
+    </div>
+
+    <form id="test-form" method="post" asp-action="SubmitTest">
+        <input type="hidden" name="resultId" value="@Model.ResultId" />
+
+        @for (int i = 0; i < Model.Test.Questions.Count; i++)
+        {
+            var question = Model.Test.Questions[i];
+            <div class="question @(i == 0 ? "active" : "") mb-4 p-3 border rounded"
+                 data-question-id="@question.Id">
+                <p class="fw-bold">@question.Text</p>
+
+                <div class="answers-container">
+                    @foreach (var answer in question.Answers)
+                    {
+                        <div class="answer mb-2 p-2 border rounded"
+                             data-question-id="@question.Id"
+                             data-answer-id="@answer.Id">
+                            <input type="radio"
+                                   name="answers[@question.Id]"
+                                   id="answer-@question.Id-@answer.Id"
+                                   value="@answer.Id"
+                                   style="display: none;">
+                            <label for="answer-@question.Id-@answer.Id">@answer.Text</label>
+                        </div>
+                    }
+                </div>
+
+                @if (i == Model.Test.Questions.Count - 1)
+                {
+                    <button type="submit" class="btn btn-primary mt-3">Завершить тест</button>
+                }
+                else
+                {
+                    <button type="button" class="btn-next btn btn-outline-primary mt-3" disabled>Следующий вопрос</button>
+                }
+            </div>
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        // Инициализация данных теста
+        document.addEventListener('DOMContentLoaded', function () {
+            // Таймер
+            const timerElement = document.getElementById('time');
+            if (timerElement) {
+                let timeLeft = @((int)Model.TimeLeft.TotalSeconds);
+
+                const timerInterval = setInterval(function () {
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('test-form').submit();
+                    }
+                    timeLeft--;
+                }, 1000);
+            }
+
+            // Обработка выбора ответа
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.addEventListener('click', function () {
+                    const questionId = this.dataset.questionId;
+                    const answerId = this.dataset.answerId;
+
+                    // Снимаем выделение с других ответов
+                    document.querySelectorAll(`.answer[data-question-id="${questionId}"]`).forEach(a => {
+                        a.classList.remove('bg-primary', 'text-white');
+                    });
+
+                    // Выделяем текущий ответ
+                    this.classList.add('bg-primary', 'text-white');
+
+                    // Устанавливаем выбранный ответ
+                    const radioInput = document.getElementById(`answer-${questionId}-${answerId}`);
+                    if (radioInput) {
+                        radioInput.checked = true;
+                    }
+
+                    // Активируем кнопку "Следующий вопрос"
+                    const nextBtn = this.closest('.question').querySelector('.btn-next');
+                    if (nextBtn) nextBtn.disabled = false;
+                });
+            });
+
+            // Навигация по вопросам
+            document.querySelectorAll('.btn-next').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const currentQuestion = this.closest('.question');
+                    const nextQuestion = currentQuestion.nextElementSibling;
+
+                    if (nextQuestion?.classList.contains('question')) {
+                        currentQuestion.classList.remove('active');
+                        nextQuestion.classList.add('active');
+                        nextQuestion.scrollIntoView({ behavior: 'smooth' });
+
+                        // Блокируем кнопку в следующем вопросе
+                        const nextQuestionBtn = nextQuestion.querySelector('.btn-next');
+                        if (nextQuestionBtn) nextQuestionBtn.disabled = true;
+                    }
+                });
+            });
+        });
+    </script>
+}
