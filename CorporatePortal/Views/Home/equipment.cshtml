@@ -1,81 +1,191 @@
-﻿@{
-    ViewBag.Title = "Equipment";
-    ViewBag.HeaderTitle = "Инструменты";
-    Layout = "_Layout";
-}
-
-<div class="equipment-page-container">
+﻿<div class="equipment-page-container">
     <div class="container-with-button">
         <h2 class="page-title">Список инструментов</h2>
-        <button onclick="goBack()" class="btn btn-secondary back-button">Назад</button>
+        <button onclick="goBack()" class="back-button">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
     </div>
 
     <div class="equipment-content-card">
         <div class="equipment-list">
-            <!-- Инструмент 1 -->
+            <!-- Инструмент 1 - Кримпер -->
             <div class="equipment-item">
-                <a href="equipment-detail-1.html" class="equipment-link">
+                <a href="#crimperModal" class="equipment-link">
                     <div class="equipment-image-container">
-                        <img src="~/images/objim.jpg" alt="обжим" class="equipment-icon">
+                        <img src="/images/objim.jpg" alt="Кримпер" class="equipment-icon">
                     </div>
                     <div class="equipment-info">
-                        <h3>Кримпер (или обжим)</h3>
-                        <p>Гексогональный обжим позволяет получать плотно обжатые наконечники НШВИ и НШВ, которые плотно держатся на многожильных проводах.</p>
+                        <h3>Кримпер (обжим)</h3>
+                        <p>Гексогональный обжим позволяет получать плотно обжатые наконечники НШВИ и НШВ.</p>
                     </div>
                 </a>
             </div>
 
-            <!-- Инструмент 2 -->
+            <!-- Инструмент 2 - Длинногубцы -->
             <div class="equipment-item">
-                <a href="equipment-detail-2.html" class="equipment-link">
+                <a href="#longnoseModal" class="equipment-link">
                     <div class="equipment-image-container">
-                        <img src="~/images/dlinnogubci.jpg" alt="длинногубцы" class="equipment-icon">
+                        <img src="/images/dlinnogubci.jpg" alt="Длинногубцы" class="equipment-icon">
                     </div>
                     <div class="equipment-info">
                         <h3>Длинногубцы</h3>
-                        <p>Ручной инструмент с длинными узкими губками для захвата мелких предметов и работы в труднодоступных местах.</p>
+                        <p>Ручной инструмент с длинными узкими губками для работы в труднодоступных местах.</p>
                     </div>
                 </a>
             </div>
 
-            <!-- Инструмент 3 -->
+            <!-- Инструмент 3 - Плоскогубцы -->
             <div class="equipment-item">
-                <a href="equipment-detail-3.html" class="equipment-link">
+                <a href="#pliersModal" class="equipment-link">
                     <div class="equipment-image-container">
-                        <img src="~/images/ploskogubci.jpg" alt="плоскогубцы" class="equipment-icon">
+                        <img src="/images/ploskogubci.jpg" alt="Плоскогубцы" class="equipment-icon">
                     </div>
                     <div class="equipment-info">
                         <h3>Плоскогубцы</h3>
-                        <p>Многофункциональный ручной инструмент с плоскими зажимными губками, предназначенный для захвата, сгибания и удержания различных материалов.</p>
+                        <p>Многофункциональный инструмент с плоскими зажимными губками.</p>
                     </div>
                 </a>
             </div>
 
-            <!-- Инструмент 4 -->
+            <!-- Инструмент 4 - Бокорезы -->
             <div class="equipment-item">
-                <a href="equipment-detail-4.html" class="equipment-link">
+                <a href="#cuttersModal" class="equipment-link">
                     <div class="equipment-image-container">
-                        <img src="~/images/bokorezi.jpg" alt="бокорезы" class="equipment-icon">
+                        <img src="/images/bokorezi.jpg" alt="Бокорезы" class="equipment-icon">
                     </div>
                     <div class="equipment-info">
-                        <h3>Кусачки (или бокорезы)</h3>
-                        <p>Ручной инструмент для резки проводов, кабелей и тонких металлических изделий. Имеют острые режущие кромки и удобные рукоятки для комфортного использования.</p>
+                        <h3>Кусачки (бокорезы)</h3>
+                        <p>Инструмент для резки проводов и тонких металлических изделий.</p>
                     </div>
                 </a>
             </div>
 
-            <!-- Инструмент 5 -->
+            <!-- Инструмент 5 - Стриппер -->
             <div class="equipment-item">
-                <a href="equipment-detail-4.html" class="equipment-link">
+                <a href="#stripperModal" class="equipment-link">
                     <div class="equipment-image-container">
-                        <img src="~/images/izolyatciya2.jpg" alt="стриппер" class="equipment-icon">
+                        <img src="/images/izolyatciya2.jpg" alt="Стриппер" class="equipment-icon">
                     </div>
                     <div class="equipment-info">
                         <h3>Стриппер</h3>
-                        <p>Используется для аккуратного удаления изоляции с проводов. Имеет регулируемые лезвия, которые позволяют выбирать глубину разреза, чтобы не повредить сам провод.</p>
+                        <p>Используется для аккуратного удаления изоляции с проводов.</p>
                     </div>
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Модальные окна с подробным описанием -->
+<!-- Модальное окно для кримпера -->
+<div id="crimperModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Кримпер (обжимной инструмент)</h2>
+        <img src="/images/objim.jpg" alt="Кримпер" class="modal-image">
+        <h3>Подробное описание</h3>
+        <p>Профессиональный гексогональный обжимной инструмент предназначен для обжима наконечников НШВИ и НШВ на многожильных проводах. Обеспечивает надежное и плотное соединение, предотвращающее окисление и перегрев контактов.</p>
+        <h3>Технические характеристики</h3>
+        <ul>
+            <li>Диапазон обжима: 0.5-6 мм²</li>
+            <li>Гексогональная форма обжима</li>
+            <li>Эргономичные рукоятки с мягкими накладками</li>
+            <li>Материал: хромованадиевая сталь</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальное окно для длинногубцев -->
+<div id="longnoseModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Длинногубцы</h2>
+        <img src="/images/dlinnogubci.jpg" alt="Длинногубцы" class="modal-image">
+        <h3>Подробное описание</h3>
+        <p>Универсальные длинногубцы с узкими губками для работы в ограниченном пространстве. Идеально подходят для монтажных работ, электротехнических операций и точного захвата мелких деталей.</p>
+        <h3>Технические характеристики</h3>
+        <ul>
+            <li>Длина: 160 мм</li>
+            <li>Материал: инструментальная сталь</li>
+            <li>Резиновые рукоятки для удобного хвата</li>
+            <li>Закаленные рабочие поверхности</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальное окно для плоскогубцев -->
+<div id="pliersModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Плоскогубцы комбинированные</h2>
+        <img src="/images/ploskogubci.jpg" alt="Плоскогубцы" class="modal-image">
+        <h3>Подробное описание</h3>
+        <p>Многофункциональные плоскогубцы с комбинированными губками для захвата, сгибания и скручивания проводов, металлических деталей и других материалов. Имеют режущую кромку для проволоки.</p>
+        <h3>Технические характеристики</h3>
+        <ul>
+            <li>Длина: 200 мм</li>
+            <li>Материал: хромомолибденовая сталь</li>
+            <li>Диэлектрическое покрытие ручек</li>
+            <li>Максимальное усилие сжатия: 50 кг</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальное окно для бокорезов -->
+<div id="cuttersModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Бокорезы (кусачки)</h2>
+        <img src="/images/bokorezi.jpg" alt="Бокорезы" class="modal-image">
+        <h3>Подробное описание</h3>
+        <p>Прецизионные бокорезы с высококачественными режущими кромками для чистой резки медных и алюминиевых проводов, пластика и других материалов. Обеспечивают чистый срез без заусенцев.</p>
+        <h3>Технические характеристики</h3>
+        <ul>
+            <li>Максимальный диаметр реза: 2.5 мм (медь)</li>
+            <li>Угол режущих кромок: 45°</li>
+            <li>Эргономичные двухкомпонентные рукоятки</li>
+            <li>Закаленные режущие кромки</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Модальное окно для стриппера -->
+<div id="stripperModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Стриппер для проводов</h2>
+        <img src="/images/izolyatciya2.jpg" alt="Стриппер" class="modal-image">
+        <h3>Подробное описание</h3>
+        <p>Профессиональный стриппер для быстрого и аккуратного снятия изоляции с проводов различного диаметра. Регулируемые лезвия позволяют точно настроить глубину разреза без повреждения жилы.</p>
+        <h3>Технические характеристики</h3>
+        <ul>
+            <li>Диапазон проводов: 0.2-6 мм²</li>
+            <li>Регулируемая глубина реза</li>
+            <li>Автоматический захват провода</li>
+            <li>Встроенный ограничитель длины снимаемой изоляции</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Скрипт для работы модальных окон
+    document.querySelectorAll('.equipment-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const modalId = this.getAttribute('href');
+            document.querySelector(modalId).style.display = 'block';
+        });
+    });
+
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    window.addEventListener('click', function (e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+</script>

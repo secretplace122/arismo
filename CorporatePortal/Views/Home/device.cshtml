@@ -1,22 +1,18 @@
-﻿@{
-    ViewBag.Title = "Device";
-    ViewBag.HeaderTitle = "Оборудование";
-    Layout = "_Layout";
-}
-
-<div class="device-page-container">
+﻿<div class="device-page-container">
     <div class="container-with-button">
         <h2 class="page-title">Список оборудования</h2>
-        <button onclick="goBack()" class="btn btn-secondary back-button">Назад</button>
+        <button onclick="goBack()" class="back-button">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
     </div>
 
     <div class="device-content-card">
         <div class="device-list">
             <!-- Оборудование 1 -->
             <div class="device-item">
-                <a href="#" class="device-link" data-bs-toggle="modal" data-bs-target="#glwModal">
+                <a href="#glwModal" class="device-link">
                     <div class="device-image-container">
-                        <img src="~/images/glw.jpg" alt="glw" class="device-icon">
+                        <img src="/images/glw.jpg" alt="GLW" class="device-icon">
                     </div>
                     <div class="device-info">
                         <h3>GLW</h3>
@@ -27,39 +23,39 @@
 
             <!-- Оборудование 2 -->
             <div class="device-item">
-                <a href="#" class="device-link" data-bs-toggle="modal" data-bs-target="#zachistkaModal">
+                <a href="#zachistkaModal" class="device-link">
                     <div class="device-image-container">
-                        <img src="~/images/machina_zachistki.jpg" alt="зачистка" class="device-icon">
+                        <img src="/images/machina_zachistki.jpg" alt="Машинка для зачистки" class="device-icon">
                     </div>
                     <div class="device-info">
                         <h3>Машинка для зачистки проводов</h3>
-                        <p>Это компактный инструмент, который быстро и аккуратно удаляет изоляцию с проводов различного диаметра, облегчая подготовку кабеля к дальнейшей обработке.</p>
+                        <p>Компактный инструмент для быстрого и аккуратного удаления изоляции с проводов.</p>
                     </div>
                 </a>
             </div>
 
             <!-- Оборудование 3 -->
             <div class="device-item">
-                <a href="#" class="device-link" data-bs-toggle="modal" data-bs-target="#fenzubrModal">
+                <a href="#fenzubrModal" class="device-link">
                     <div class="device-image-container">
-                        <img src="~/images/fen.jpg" alt="фен1" class="device-icon">
+                        <img src="/images/fen.jpg" alt="Фен Зубр" class="device-icon">
                     </div>
                     <div class="device-info">
                         <h3>Строительный фен "ЗУБР"</h3>
-                        <p>Это мощный строительный фен, применяемый для сушки, пайки, сварки пластика и удаления лакокрасочных покрытий.</p>
+                        <p>Мощный строительный фен для сушки, пайки и сварки пластика.</p>
                     </div>
                 </a>
             </div>
 
             <!-- Оборудование 4 -->
             <div class="device-item">
-                <a href="#" class="device-link" data-bs-toggle="modal" data-bs-target="#fenElementModal">
+                <a href="#fenElementModal" class="device-link">
                     <div class="device-image-container">
-                        <img src="~/images/fen2.jpg" alt="фен2" class="device-icon">
+                        <img src="/images/fen2.jpg" alt="Фен Element" class="device-icon">
                     </div>
                     <div class="device-info">
                         <h3>Паяльный фен "ELEMENT"</h3>
-                        <p>Компактный инструмент для точечной пайки и термообработки. Оснащён регулируемым нагревом и потоком воздуха.</p>
+                        <p>Компактный инструмент для точечной пайки и термообработки.</p>
                     </div>
                 </a>
             </div>
@@ -67,149 +63,68 @@
     </div>
 </div>
 
-<!-- Модальное окно для GLW -->
-<div class="modal fade" id="glwModal" tabindex="-1" aria-labelledby="glwModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="glwModalLabel">GLW - Машинка для обжима</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <img src="~/images/glw.jpg" alt="GLW" class="img-fluid mb-3" />
-                <h3>Описание</h3>
-                <p>Машинка для обжима GLW представляет собой инструмент, предназначенный для обжима различных типов кабелей и проводов, включая сетевые (Ethernet), телефонные, коаксиальные и другие виды соединений. Она используется для обеспечения надежного соединения проводников с разъемами, такими как RJ45, RJ11, BNC и др., обеспечивая качественное и долговечное соединение.</p>
-
-                <h3>Особенности и преимущества машинки для обжима GLW:</h3>
-                <ul>
-                    <li>Универсальность: Машинка подходит для работы с различными типами кабелей и разъемов, что делает ее универсальным инструментом для электриков, монтажников и IT-специалистов.</li>
-                    <li>Надежность: Обеспечивает плотный и надежный обжим контактов, исключающий плохое соединение и потерю сигнала.</li>
-                    <li>Простота использования: Инструмент прост в эксплуатации и не требует специальных навыков для освоения. Достаточно вставить кабель в разъем и сжать ручки машинки.</li>
-                    <li>Компактность и легкость: Машинка имеет компактные размеры и небольшой вес, что облегчает транспортировку и хранение.</li>
-                    <li>Долговечность: Изготовлена из высококачественных материалов, обеспечивающих длительный срок службы инструмента даже при интенсивной эксплуатации.</li>
-                    <li>Безопасность: Ручки машинки имеют эргономичную форму и покрытие, предотвращающее скольжение рук во время работы.</li>
-                    <li>Широкий ассортимент насадок: Некоторые модели поставляются с набором сменных насадок для работы с разными типами разъемов.</li>
-                </ul>
-
-                <p>Использование машинки для обжима GLW значительно упрощает процесс монтажа кабельных сетей и обеспечивает высокое качество выполненных работ.</p>
-
-                <h3>Фотографии</h3>
-                <div class="gallery">
-                    <img src="~/images/glw_1.jpg" alt="GLW Фото 1" class="gallery-img" />
-                    <img src="~/images/glw_2.jpg" alt="GLW Фото 2" class="gallery-img" />
-                    <img src="~/images/glw_3.jpg" alt="GLW Фото 3" class="gallery-img" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Модальное окно для ZACHISTKA -->
-<div class="modal fade" id="zachistkaModal" tabindex="-1" aria-labelledby="zachistkaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="zachistkaModalLabel">Машина для зачистки</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <img src="~/images/machina_zachistki.jpg" alt="ZACHISTKA" class="img-fluid mb-3" />
-                <h3>Описание</h3>
-                <p>Это высокоэффективный электрический инструмент для зачистки проводов и кабелей диаметром от 0,03 до 4 мм². Этот инструмент предназначен для быстрого и точного снятия изоляции с проводов различного сечения без повреждения жилы. Он широко применяется в электромонтажных работах, производстве электроники, телекоммуникациях и других областях, связанных с работой с проводниками.</p>
-
-                <h3>Основные характеристики и особенности:</h3>
-                <ul>
-                    <li>Автоматическая настройка: Инструмент автоматически определяет диаметр провода и настраивается на оптимальный режим зачистки, что исключает необходимость ручной настройки.</li>
-                    <li>Высокая точность: Специальные лезвия обеспечивают аккуратное снятие изоляции без повреждения металлической жилы, что особенно важно при работе с тонкими проводами.</li>
-                    <li>Широкий диапазон диаметров: Поддерживаются провода сечением от 0,03 до 4 мм², что делает инструмент универсальным для большинства применений.</li>
-                    <li>Скорость работы: За счет автоматической настройки и высокой точности зачистка производится быстро и эффективно, экономя время на выполнение монтажных работ.</li>
-                    <li>Удобство использования: Легкий и компактный дизайн инструмента делает его удобным для длительного использования, а эргономичная рукоятка снижает усталость руки.</li>
-                    <li>Безопасность: Конструкция инструмента обеспечивает защиту от случайного контакта с острыми лезвиями, что повышает безопасность работы.</li>
-                    <li>Прочность и долговечность: Инструмент изготовлен из качественных материалов, устойчивых к износу и механическим воздействиям, что гарантирует долгий срок службы.</li>
-                    <li>Дополнительные функции: Некоторые модели могут включать встроенную подсветку рабочей зоны, функцию автоматического отключения после завершения операции и другие полезные опции.</li>
-                </ul>
-
-                <p>Машинка для зачистки станет незаменимым помощником для профессионалов и любителей, занимающихся электромонтажными работами, обеспечивая высокую производительность и качество выполнения задач.</p>
-
-                <h3>Фотографии</h3>
-                <div class="gallery">
-                    <img src="~/images/zachistka_1.jpg" alt="Машина для зачистки Фото 1" class="gallery-img" />
-                    <img src="~/images/zachistka_2.jpg" alt="Машина для зачистки Фото 2" class="gallery-img" />
-                    <img src="~/images/zachistka_3.jpg" alt="Машина для зачистки Фото 3" class="gallery-img" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Модальное окно для fenZubr -->
-<div class="modal fade" id="fenzubrModal" tabindex="-1" aria-labelledby="fenzubrModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="fenzubrModalLabel">Фен "Зубр"</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <img src="~/images/fen.jpg" alt="fenzubr" class="img-fluid mb-3" />
-                <h3>Описание</h3>
-                <p>Фен "Зубр"(описание)</p>
-
-                <h3>Основные характеристики и особенности:</h3>
-                <ul>
-                    <li>Особенности ... Характеристики...</li>
-                </ul>
-
-                <p>Фен "Зубр"(описание)</p>
-
-                <h3>Фотографии</h3>
-                <div class="gallery">
-                    <img src="~/images/fenZubr_1.jpg" alt="Фен Зубр Фото 1" class="gallery-img" />
-                    <img src="~/images/fenZubr_2.jpg" alt="Фен Зубр Фото 2" class="gallery-img" />
-                    <img src="~/images/fenZubr_3.jpg" alt="Фен Зубр Фото 3" class="gallery-img" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Модальное окно для fenElement -->
-<div class="modal fade" id="fenElementModal" tabindex="-1" aria-labelledby="fenElementModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="fenElementModalLabel">Фен "ELEMENT"</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-            </div>
-            <div class="modal-body">
-                <img src="~/images/fen2.jpg" alt="fenElement" class="img-fluid mb-3" />
-                <h3>Описание</h3>
-                <p>Фен "ELEMENT"(описание)</p>
-
-                <h3>Основные характеристики и особенности:</h3>
-                <ul>
-                    <li>Особенности ... Характеристики...</li>
-                </ul>
-
-                <p>Фен "ELEMENT"(описание)</p>
-
-                <h3>Фотографии</h3>
-                <div class="gallery">
-                    <img src="~/images/fenELEMENT_1.jpg" alt="Фен ELEMENT Фото 1" class="gallery-img" />
-                    <img src="~/images/fenELEMENT_2.jpg" alt="Фен ELEMENT Фото 2" class="gallery-img" />
-                    <img src="~/images/fenELEMENT_3.jpg" alt="Фен ELEMENT Фото 3" class="gallery-img" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-            </div>
-        </div>
+<!-- Модальные окна -->
+<div id="glwModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>GLW - Машинка для обжима</h2>
+        <img src="/images/glw.jpg" alt="GLW" class="modal-image">
+        <h3>Описание</h3>
+        <p>Машинка для обжима GLW представляет собой инструмент, предназначенный для обжима различных типов кабелей и проводов, включая сетевые (Ethernet), телефонные, коаксиальные и другие виды соединений.</p>
     </div>
 </div>
 
+<div id="zachistkaModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Машинка для зачистки проводов</h2>
+        <img src="/images/machina_zachistki.jpg" alt="Машинка для зачистки" class="modal-image">
+        <h3>Описание</h3>
+        <p>Это высокоэффективный инструмент для зачистки проводов и кабелей диаметром от 0.03 до 4 мм², предназначенный для быстрого и точного снятия изоляции без повреждения жилы.</p>
+    </div>
+</div>
+
+<div id="fenzubrModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Строительный фен "ЗУБР"</h2>
+        <img src="/images/fen.jpg" alt="Фен Зубр" class="modal-image">
+        <h3>Описание</h3>
+        <p>Мощный строительный фен с регулируемой температурой от 50°C до 600°C, применяемый для сушки, пайки, сварки пластика и удаления лакокрасочных покрытий.</p>
+    </div>
+</div>
+
+<div id="fenElementModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Паяльный фен "ELEMENT"</h2>
+        <img src="/images/fen2.jpg" alt="Фен Element" class="modal-image">
+        <h3>Описание</h3>
+        <p>Компактный инструмент для точечной пайки и термообработки с регулируемым нагревом и потоком воздуха, температурный диапазон от 100°C до 450°C.</p>
+    </div>
+</div>
+
+<script>
+    // Открытие модального окна
+    document.querySelectorAll('.device-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const modalId = this.getAttribute('href');
+            document.querySelector(modalId).style.display = 'block';
+        });
+    });
+
+    // Закрытие модального окна
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // Закрытие при клике вне окна
+    window.addEventListener('click', function (e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+</script>

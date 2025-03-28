@@ -4,58 +4,54 @@
     Layout = "_Layout";
 }
 
-<div class="main-grid-container">
-    <!-- Первый ряд: 3 карточки -->
-    <div class="card-row">
+<div class="main-page-container">
+    <div class="card-grid">
         <!-- Карточка 1 - Личный кабинет -->
-        <div class="card">
-            <h2>Личный кабинет</h2>
-            <img src="~/images/personalcabinet.png" alt="Личный кабинет" class="mainmenu-logo">
-            <p>Управляйте своей учетной записью и графиком работы.</p>
-            <a asp-controller="Home" asp-action="PersonalCabinet" class="btn btn-primary">Перейти в кабинет</a>
+        <div class="portal-card">
+            <img src="~/images/personalcabinet.png" alt="Личный кабинет" class="portal-card__icon">
+            <h3 class="portal-card__title">Личный кабинет</h3>
+            <p class="portal-card__desc">Управляйте своей учетной записью и графиком работы.</p>
+            <a asp-controller="Home" asp-action="PersonalCabinet" class="portal-card__btn">Перейти в кабинет</a>
         </div>
 
         <!-- Карточка 2 - База знаний -->
-        <div class="card">
-            <h2>База знаний</h2>
-            <img src="~/images/knowledgebase.png" alt="База знаний" class="mainmenu-logo">
-            <p>Здесь вы найдете полезные материалы для работы.</p>
-            <a asp-controller="Home" asp-action="Knowledge_Base" class="btn btn-primary">Войти в базу знаний</a>
+        <div class="portal-card">
+            <img src="~/images/knowledgebase.png" alt="База знаний" class="portal-card__icon">
+            <h3 class="portal-card__title">База знаний</h3>
+            <p class="portal-card__desc">Здесь вы найдете полезные материалы для работы.</p>
+            <a asp-controller="Home" asp-action="Knowledge_Base" class="portal-card__btn">Войти в базу знаний</a>
         </div>
 
         <!-- Карточка 3 - Тестирование -->
-        <div class="card">
-            <h2>Тестирование</h2>
-            <img src="~/images/exam.png" alt="Тестирование" class="mainmenu-logo">
-            <p>Пройдите тесты для проверки знаний.</p>
-            <a asp-controller="Home" asp-action="Testpage" class="btn btn-primary">Перейти к тестам</a>
+        <div class="portal-card">
+            <img src="~/images/exam.png" alt="Тестирование" class="portal-card__icon">
+            <h3 class="portal-card__title">Тестирование</h3>
+            <p class="portal-card__desc">Пройдите тесты для проверки знаний.</p>
+            <a asp-controller="Home" asp-action="Testpage" class="portal-card__btn">Перейти к тестам</a>
         </div>
-    </div>
 
-    <!-- Второй ряд: 3 карточки -->
-    <div class="card-row">
         <!-- Карточка 4 - Заказ обедов -->
-        <div class="card">
-            <h2>Заказать обед</h2>
-            <img src="~/images/launch.png" alt="Заказ обедов" class="mainmenu-logo">
-            <p>Раздел для заказа обедов</p>
-            <a asp-controller="Lunch" asp-action="Lunch" class="btn btn-primary">Заказать обед</a>
+        <div class="portal-card">
+            <img src="~/images/launch.png" alt="Заказ обедов" class="portal-card__icon">
+            <h3 class="portal-card__title">Заказать обед</h3>
+            <p class="portal-card__desc">Раздел для заказа обедов</p>
+            <a asp-controller="Lunch" asp-action="Lunch" class="portal-card__btn">Заказать обед</a>
         </div>
 
         <!-- Карточка 5 - Обратная связь -->
-        <div class="card">
-            <h2>Обратная связь</h2>
-            <img src="~/images/os.png" alt="Обратная связь" class="mainmenu-logo">
-            <p>Напишите обращение руководству (можно анонимно).</p>
-            <a asp-controller="Home" asp-action="Feedback" class="btn btn-primary">Оставить обращение</a>
+        <div class="portal-card">
+            <img src="~/images/os.png" alt="Обратная связь" class="portal-card__icon">
+            <h3 class="portal-card__title">Обратная связь</h3>
+            <p class="portal-card__desc">Напишите обращение руководству (можно анонимно).</p>
+            <a asp-controller="Home" asp-action="Feedback" class="portal-card__btn">Оставить обращение</a>
         </div>
 
         <!-- Карточка 6 - Контакты -->
-        <div class="card">
-            <h2>Контакты</h2>
-            <img src="~/images/contacts.png" alt="Контакты" class="mainmenu-logo">
-            <p>Актуальные контакты сотрудников для связи.</p>
-            <a asp-controller="Home" asp-action="Contacts" class="btn btn-primary">Перейти к контактам</a>
+        <div class="portal-card">
+            <img src="~/images/contacts.png" alt="Контакты" class="portal-card__icon">
+            <h3 class="portal-card__title">Контакты</h3>
+            <p class="portal-card__desc">Актуальные контакты сотрудников для связи.</p>
+            <a asp-controller="Home" asp-action="Contacts" class="portal-card__btn">Перейти к контактам</a>
         </div>
     </div>
 </div>

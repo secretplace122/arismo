@@ -31,11 +31,11 @@
 
                 @if (i == Model.Test.Questions.Count - 1)
                 {
-                    <button type="submit" class="btn btn-primary mt-3">Завершить тест</button>
+                    <button type="submit" class="btn-complete-test mt-3">Завершить тест</button>
                 }
                 else
                 {
-                    <button type="button" class="btn-next btn btn-outline-primary mt-3" disabled>Следующий вопрос</button>
+                    <button type="button" class="btn-next-question" disabled>Следующий вопрос</button>
                 }
             </div>
         }
@@ -44,7 +44,6 @@
 
 @section Scripts {
     <script>
-        // Инициализация данных теста
         document.addEventListener('DOMContentLoaded', function () {
             // Таймер
             const timerElement = document.getElementById('time');
@@ -70,28 +69,24 @@
                     const questionId = this.dataset.questionId;
                     const answerId = this.dataset.answerId;
 
-                    // Снимаем выделение с других ответов
                     document.querySelectorAll(`.answer[data-question-id="${questionId}"]`).forEach(a => {
                         a.classList.remove('bg-primary', 'text-white');
                     });
 
-                    // Выделяем текущий ответ
                     this.classList.add('bg-primary', 'text-white');
 
-                    // Устанавливаем выбранный ответ
                     const radioInput = document.getElementById(`answer-${questionId}-${answerId}`);
                     if (radioInput) {
                         radioInput.checked = true;
                     }
 
-                    // Активируем кнопку "Следующий вопрос"
-                    const nextBtn = this.closest('.question').querySelector('.btn-next');
+                    const nextBtn = this.closest('.question').querySelector('.btn-next-question');
                     if (nextBtn) nextBtn.disabled = false;
                 });
             });
 
             // Навигация по вопросам
-            document.querySelectorAll('.btn-next').forEach(btn => {
+            document.querySelectorAll('.btn-next-question').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const currentQuestion = this.closest('.question');
                     const nextQuestion = currentQuestion.nextElementSibling;
@@ -101,8 +96,7 @@
                         nextQuestion.classList.add('active');
                         nextQuestion.scrollIntoView({ behavior: 'smooth' });
 
-                        // Блокируем кнопку в следующем вопросе
-                        const nextQuestionBtn = nextQuestion.querySelector('.btn-next');
+                        const nextQuestionBtn = nextQuestion.querySelector('.btn-next-question');
                         if (nextQuestionBtn) nextQuestionBtn.disabled = true;
                     }
                 });

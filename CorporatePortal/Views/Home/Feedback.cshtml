@@ -7,30 +7,32 @@
 }
 
 <div class="feedback-page-container">
-    <div class="page-header-with-button">
+    <div class="container-with-button">
         <h2 class="page-title">Обратная связь</h2>
-        <button onclick="goBack()" class="btn btn-secondary back-button">Назад</button>
+        <button onclick="goBack()" class="back-button">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
     </div>
 
     <div class="feedback-content-card">
-        <p class="feedback-description">Вы можете оставить предложение, жалобу или обращение в свободной форме. Если вы не укажете своё имя, сообщение будет анонимным.</p>
+        <p class="feedback-description">Вы можете оставить предложение, жалобу или обращение в свободной форме.</p>
 
         <form method="post" asp-controller="Feedback" asp-action="Submit" class="feedback-form">
             <div class="form-group">
                 <label for="name">Ваше имя:</label>
-                <input type="text" id="name" name="name" class="form-control" value="@(Model?.FullName ?? "Неизвестный пользователь")" readonly />
+                <input type="text" id="name" name="name" class="form-input" value="@(Model?.FullName ?? "Неизвестный пользователь")" readonly />
             </div>
             <div class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" id="anonymous" name="anonymous" class="form-check-input" onchange="toggleNameField()" />
-                    <label for="anonymous" class="form-check-label">Отправить анонимно</label>
-                </div>
+                <label class="form-checkbox">
+                    <input type="checkbox" id="anonymous" name="anonymous" class="form-checkbox-input" onchange="toggleNameField()" />
+                    <span class="form-checkbox-label">Отправить анонимно</span>
+                </label>
             </div>
             <div class="form-group">
                 <label for="message">Ваше сообщение:</label>
-                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Введите ваше сообщение" required></textarea>
+                <textarea id="message" name="message" class="form-textarea" rows="4" placeholder="Введите ваше сообщение" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Отправить</button>
+            <button type="submit" class="submit-button">Отправить</button>
         </form>
     </div>
 </div>

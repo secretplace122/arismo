@@ -17,37 +17,37 @@
 
 <div class="test-page-container">
     <div class="container-with-button">
-        <h1>Список тестов</h1>
+        <h1 class="page-title">Список тестов</h1>
         <a asp-controller="Home" asp-action="Index" class="btn btn-secondary back-button">
             <i class="fas fa-arrow-left"></i> Назад
         </a>
     </div>
 
     <div class="test-list">
-        <div class="test-item card">
+        <div class="test-item">
             @if (test1Result != null)
             {
                 <div class="test-content">
-                    <h3>Тест 1</h3>
+                    <h3 class="test-name">Тест 1</h3>
                     <p class="test-description">Знакомство с инструментами</p>
 
                     @if (test1Result.IsCompleted)
                     {
-                        <div class="test-status">
-                            <div class="score-display">
-                                <span>Результат: @test1Result.Score из @maxScore</span>
-                                <span class="percentage">@percentage%</span>
+                        <div class="test-result">
+                            <div class="test-score">
+                                <span class="score-text">Результат: @test1Result.Score из @maxScore</span>
+                                <span class="score-percentage">@percentage%</span>
                             </div>
                             @if (percentage >= 70)
                             {
-                                <div class="status-badge passed">
+                                <div class="test-status passed">
                                     <i class="fas fa-check-circle"></i>
                                     <span>Пройден</span>
                                 </div>
                             }
                             else
                             {
-                                <div class="status-badge failed">
+                                <div class="test-status failed">
                                     <i class="fas fa-times-circle"></i>
                                     <span>Не пройден</span>
                                 </div>
@@ -56,14 +56,14 @@
                     }
                     else if (test1Result.IsFailedByTime)
                     {
-                        <div class="status-badge failed">
+                        <div class="test-status failed">
                             <i class="fas fa-clock"></i>
                             <span>Время вышло</span>
                         </div>
                     }
                     else
                     {
-                        <div class="status-badge in-progress">
+                        <div class="test-status in-progress">
                             <i class="fas fa-spinner"></i>
                             <span>В процессе</span>
                         </div>
@@ -73,9 +73,9 @@
             else
             {
                 <a asp-controller="Home" asp-action="StartTest" asp-route-testId="1" class="test-link">
-                    <h3>Тест 1</h3>
+                    <h3 class="test-name">Тест 1</h3>
                     <p class="test-description">Знакомство с инструментами</p>
-                    <div class="start-test-btn">
+                    <div class="test-action">
                         <i class="fas fa-play-circle"></i>
                         <span>Начать тест</span>
                     </div>

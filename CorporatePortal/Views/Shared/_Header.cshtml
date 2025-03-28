@@ -1,18 +1,16 @@
 ﻿<header class="header">
     <div class="header-container">
-        <!-- Логотип и название  -->
+        <!-- Логотип и название -->
         <div class="brand-container">
             <a href="/" class="brand">
                 <i class="fas fa-building brand-logo"></i>
-                <span class="brand-title">Arismo Корпоративный портал</span>
+                <span class="brand-title">Arismo. Корпоративный портал.</span>
             </a>
         </div>
 
-        
+        <!-- Десктопная версия -->
         <div class="desktop-nav-container">
-            
-
-            <!-- Кнопка выхода  -->
+            <!-- Кнопка выхода -->
             <div class="desktop-logout">
                 @if (!ViewContext.RouteData.Values["action"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase))
                 {
@@ -25,25 +23,15 @@
             </div>
         </div>
 
-        <!-- Мобильные элементы -->
+        <!-- Мобильная версия -->
         <div class="mobile-controls">
-            <div class="mobile-logout">
-                @if (!ViewContext.RouteData.Values["action"].ToString().Equals("Login", StringComparison.OrdinalIgnoreCase))
-                {
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <button type="submit" class="logout-button">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </form>
-                }
-            </div>
             <button class="mobile-menu-toggle" aria-label="Меню">
                 <span class="menu-icon"></span>
             </button>
         </div>
     </div>
 
-    <!-- Мобильное меню -->
+    <!-- Мобильное меню (скрыто на десктопе) -->
     <nav class="mobile-nav">
         <ul class="mobile-nav-list">
             <li><a asp-controller="Home" asp-action="Index" class="nav-link">Главная</a></li>
@@ -53,6 +41,13 @@
             <li><a asp-controller="Lunch" asp-action="Lunch" class="nav-link">Заказать обед</a></li>
             <li><a asp-controller="Home" asp-action="Feedback" class="nav-link">Обращение</a></li>
             <li><a asp-controller="Home" asp-action="Contacts" class="nav-link">Контакты</a></li>
+            <li>
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <button type="submit" class="logout-button">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </form>
+            </li>
         </ul>
     </nav>
 </header>

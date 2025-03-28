@@ -11,23 +11,27 @@
     var isExistingOrder = ViewBag.HasOrder;
 }
 
-<div class="lunch-container">
+<div class="lunch-page-container">
     <div class="container-with-button">
-        <h2>Заказ обедов</h2>
-        <button onclick="goBack()" class="btn btn-secondary back-button">Назад</button>
+        <h2 class="page-title">Заказ обедов</h2>
+        <button onclick="window.location.href='@Url.Action("Index", "Home")'"
+                class="back-button"
+                id="backButton">
+            <i class="fas fa-arrow-left"></i> Назад
+        </button>
     </div>
 
-    <div class="lunch-content-card">
+    <div class="content-card">
         @if (!ViewBag.IsOrderAvailable)
         {
-            <div class="alert alert-info">
+            <div class="info-message">
                 <i class="fas fa-info-circle"></i>
                 <span>Заказы обедов недоступны в пятницу и субботу.</span>
             </div>
         }
         else if (ViewBag.IsSunday)
         {
-            <div class="alert alert-info">
+            <div class="info-message">
                 <i class="fas fa-info-circle"></i>
                 <span>Сегодня воскресенье. Вы можете заказать обед на понедельник.</span>
             </div>
@@ -44,17 +48,17 @@
             <div class="order-form">
                 <form method="post" asp-controller="Lunch" asp-action="@(isExistingOrder ? "EditOrder" : "PlaceOrder")"
                       onsubmit="return validatePortions(@(isExistingOrder ? "true" : "false"))">
-                    <div class="form-group">
-                        <label>Количество порций:</label>
+                    <div class="form-field">
+                        <label class="field-label">Количество порций:</label>
                         <div class="portion-control-container">
                             <div class="portion-control">
                                 <button type="button" class="portion-btn" id="decreasePortion">-</button>
                                 <input type="number" id="portions" name="portions"
                                        value="@currentPortions" min="@minPortions" readonly
-                                       class="form-control text-center" />
+                                       class="portion-input" />
                                 <button type="button" class="portion-btn" id="increasePortion">+</button>
                             </div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="submit-button">
                                 @(isExistingOrder ? "Изменить заказ" : "Заказать обед")
                             </button>
                         </div>
@@ -64,10 +68,10 @@
         }
 
         <div class="orders-list">
-            <h3>Список заказов на сегодня:</h3>
+            <h3 class="orders-title">Список заказов на сегодня:</h3>
             @if (Model != null && Model.Any())
             {
-                <ul class="orders">
+                <ul class="orders-items">
                     @foreach (var order in Model)
                     {
                         <li class="order-item">
@@ -86,7 +90,6 @@
 </div>
 
 <script>
-    // Обработчики для изменения количества порций
     document.getElementById('increasePortion')?.addEventListener('click', function () {
         const input = document.getElementById('portions');
         if (input) input.value = parseInt(input.value) + 1;
@@ -100,7 +103,6 @@
         }
     });
 
-    // Валидация перед отправкой формы
     function validatePortions(isExistingOrder) {
         const portions = parseInt(document.getElementById('portions').value);
         const errorElement = document.getElementById('error-message');
@@ -112,8 +114,8 @@
         errorElement.style.display = 'none';
         return true;
     }
-
-    function goBack() {
-        window.history.back();
-    }
+    document.getElementById('backButton')?.addEventListener('click', function (e) {
+        this.style.pointerEvents = 'none';
+        this.style.opacity = '0.7';
+    });
 </script>

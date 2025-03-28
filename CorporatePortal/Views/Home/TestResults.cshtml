@@ -4,19 +4,19 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-    <h2>Результаты теста: @Model.TestName</h2>
+<div class="test-results-container">
+    <h2 class="test-results-title">Результаты теста: @Model.TestName</h2>
 
     @if (Model.IsFailedByTime)
     {
-        <div class="alert alert-danger">
+        <div class="test-alert test-alert-danger">
             <h4>Тест провален по времени!</h4>
             <p>Вы не успели завершить тест в отведённое время.</p>
         </div>
     }
     else
     {
-        <div class="alert @(Model.Percentage >= 70 ? "alert-success" : "alert-warning")">
+        <div class="test-alert @(Model.Percentage >= 70 ? "test-alert-success" : "test-alert-warning")">
             <h4>Тест завершён</h4>
             <p>Набрано баллов: <strong>@Model.Score из @Model.MaxScore</strong></p>
             <p>Процент выполнения: <strong>@Model.Percentage%</strong></p>
@@ -24,5 +24,5 @@
         </div>
     }
 
-    <a asp-action="Testpage" class="btn btn-primary mt-3">Вернуться к списку тестов</a>
+    <a asp-action="Testpage" class="test-back-btn">Вернуться к списку тестов</a>
 </div>

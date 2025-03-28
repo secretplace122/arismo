@@ -38,7 +38,7 @@ public class LunchController : Controller
         var today = DateTime.Today.DayOfWeek;
 
         // Заказы недоступны в пятницу и субботу
-        if (today == DayOfWeek.Friday || today == DayOfWeek.Saturday)
+        if (today == DayOfWeek.Monday || today == DayOfWeek.Tuesday)
         {
             return false;
         }
