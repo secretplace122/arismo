@@ -27,51 +27,113 @@ public class LunchController : Controller
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var orders = _database.GetTodayOrders().Where(o => o.EmployeeId == userId).ToList();
+        
+        ViewBag.IsOrderAvailable = IsOrderAvailable();
+        ViewBag.CurrentDay = DateTime.Now.DayOfWeek;
 
-        ViewBag.HasOrder = orders.Any(); // Передаем информацию о наличии заказа
-        ViewBag.IsOrderAvailable = IsOrderAvailable(); // Передаем информацию о доступности заказов
-        ViewBag.IsSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday; // Передаем информацию, если сегодня воскресенье
         return View(orders);
     }
     private bool IsOrderAvailable()
     {
-        var today = DateTime.Today.DayOfWeek;
 
-        // Заказы недоступны в пятницу и субботу
-        if (today == DayOfWeek.Friday || today == DayOfWeek.Saturday)
+        // === ТЕСТОВЫЕ ПЕРЕМЕННЫЕ ===
+        //DayOfWeek testDay = DayOfWeek.Thursday; // День недели для теста
+        //int testHour = 16;                     // Час для теста (0-23)
+        // === ВРЕМЕННАЯ ЗАМЕНА ДАТЫ ===
+        //var now = new DateTime(2024, 7, 13 + (int)testDay, testHour, 0, 0);
+        // Раскомментируйте для боевого режима:
+
+
+        var now = DateTime.Now; // Коммент для теста
+        var currentDay = now.DayOfWeek;
+        var currentHour = now.Hour;
+
+        // Полностью недоступные дни
+        if (currentDay == DayOfWeek.Friday || currentDay == DayOfWeek.Saturday)
         {
             return false;
         }
 
-        // В воскресенье заказы доступны для понедельника
+        // В четверг после 17:00 - недоступно
+        if (currentDay == DayOfWeek.Thursday && currentHour >= 17)
+        {
+            return false;
+        }
+
+        // Все остальные случаи (включая воскресенье) - доступно
         return true;
     }
+
     /// <summary>
     /// Обрабатывает заказ обеда.
     /// </summary>
     [HttpPost]
-    public async Task<IActionResult> PlaceOrder(int portions)
+    public IActionResult PlaceOrder(int portions)
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var user = _database.GetUserById(userId);
 
-        if (user == null)
+        if (user == null) return RedirectToAction("Error", "Home");
+
+        // Получаем текущий заказ (если есть)
+        var existingOrder = _database.GetTodayOrders()
+            .FirstOrDefault(o => o.EmployeeId == userId);
+
+        // Если порций 0 - удаляем заказ
+        if (portions <= 0)
         {
-            return RedirectToAction("Error", "Home");
+            if (existingOrder != null)
+            {
+                _database.DeleteOrder(existingOrder.Id);
+            }
+            return RedirectToAction("Lunch");
         }
 
-        var order = new LunchOrder
+        // Если заказ уже существует - обновляем
+        if (existingOrder != null)
+        {
+            existingOrder.Portions = portions;
+            _database.UpdateOrder(existingOrder);
+            return RedirectToAction("Lunch");
+        }
+
+        // Создаем новый заказ
+        var deliveryDate = CalculateDeliveryDate(DateTime.Now);
+
+        var newOrder = new LunchOrder
         {
             EmployeeId = userId,
             FullName = user.FullName,
             Portions = portions,
-            OrderDate = DateTime.Now
+            OrderDate = DateTime.Now,
+            DeliveryDate = deliveryDate
         };
 
-        // Сохраняем заказ в базу данных
-        SaveOrder(order);
+        _database.AddOrder(newOrder);
+        return RedirectToAction("Lunch");
+    }
 
-        return RedirectToAction("Lunch", "Lunch");
+    /// <summary>
+    /// Единственный метод расчета даты доставки
+    /// </summary>
+    private DateTime CalculateDeliveryDate(DateTime orderDate)
+    {
+        var deliveryDate = orderDate.AddDays(1);
+
+        // Если заказ после 17:00 - добавляем дополнительный день
+        if (orderDate.Hour >= 17)
+        {
+            deliveryDate = deliveryDate.AddDays(1);
+        }
+
+        // Пропускаем выходные (суббота и воскресенье)
+        while (deliveryDate.DayOfWeek == DayOfWeek.Saturday ||
+               deliveryDate.DayOfWeek == DayOfWeek.Sunday)
+        {
+            deliveryDate = deliveryDate.AddDays(1);
+        }
+
+        return deliveryDate.Date;
     }
 
     /// <summary>
@@ -79,17 +141,25 @@ public class LunchController : Controller
     /// </summary>
     private void SaveOrder(LunchOrder order)
     {
+        var now = DateTime.Now;
+        var deliveryDate = CalculateDeliveryDate(now);
+
         using (var connection = new SqliteConnection(Database.ConnectionString))
         {
             connection.Open();
             var command = connection.CreateCommand();
             command.CommandText = @"
-                INSERT INTO LunchOrders (EmployeeId, FullName, Portions, OrderDate)
-                VALUES ($employeeId, $fullName, $portions, $orderDate);";
+            INSERT INTO LunchOrders 
+                (EmployeeId, FullName, Portions, OrderDate, DeliveryDate)
+            VALUES 
+                ($employeeId, $fullName, $portions, $orderDate, $deliveryDate);";
+
             command.Parameters.AddWithValue("$employeeId", order.EmployeeId);
             command.Parameters.AddWithValue("$fullName", order.FullName);
             command.Parameters.AddWithValue("$portions", order.Portions);
-            command.Parameters.AddWithValue("$orderDate", order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            command.Parameters.AddWithValue("$orderDate", now.ToString("yyyy-MM-dd HH:mm:ss"));
+            command.Parameters.AddWithValue("$deliveryDate", deliveryDate.ToString("yyyy-MM-dd"));
+
             command.ExecuteNonQuery();
         }
     }
@@ -186,5 +256,48 @@ public class LunchController : Controller
         }
 
         return RedirectToAction("Lunch");
+    }
+    private (string Date, string DayOfWeek) GetOrderTargetDateInfo()
+    {
+        var now = DateTime.Now;
+        var targetDate = now;
+
+        // Воскресенье - заказ на понедельник
+        if (now.DayOfWeek == DayOfWeek.Sunday)
+        {
+            targetDate = now.AddDays(1);
+        }
+        // Рабочие дни до 17:00 - на завтра
+        else if (now.Hour < 17)
+        {
+            targetDate = now.AddDays(1);
+        }
+        // Рабочие дни после 17:00 - на послезавтра
+        else
+        {
+            targetDate = now.AddDays(2);
+        }
+
+        // Пропускаем выходные (если попали на субботу)
+        if (targetDate.DayOfWeek == DayOfWeek.Saturday)
+        {
+            targetDate = targetDate.AddDays(2);
+        }
+        else if (targetDate.DayOfWeek == DayOfWeek.Sunday)
+        {
+            targetDate = targetDate.AddDays(1);
+        }
+
+        var dayOfWeek = targetDate.DayOfWeek switch
+        {
+            DayOfWeek.Monday => "понедельник",
+            DayOfWeek.Tuesday => "вторник",
+            DayOfWeek.Wednesday => "среду",
+            DayOfWeek.Thursday => "четверг",
+            DayOfWeek.Friday => "пятницу",
+            _ => ""
+        };
+
+        return (targetDate.ToString("dd.MM.yyyy"), dayOfWeek);
     }
 }

@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Мои курсы";
+    ViewBag.HeaderTitle = "Мои курсы";
+    Layout = "_Layout";
+}
+
+<main class="main-content">
+    <div class="my-courses-container">
+        <div class="container-with-button">
+            <h2 class="page-title">Мои курсы</h2>
+            <button onclick="goBack()" class="btn btn-secondary back-button">
+                <i class="fas fa-arrow-left"></i> Назад
+            </button>
+        </div>
+
+        <div class="courses-progress-container">
+            <div class="progress-card">
+                <div class="progress-info">
+                    <h3>Общий прогресс обучения</h3>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 65%;">
+                            <span class="progress-percent">65%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Активных курса</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Завершен</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Баллов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="courses-list-container">
+            <!-- Курс по 5С -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-badge" style="background-color: #4CAF50;">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <div class="course-title-wrapper">
+                        <h3 class="course-title">Внедрение системы 5С на производстве</h3>
+                        <span class="course-status active">В процессе</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <p class="course-description">
+                        Освойте принципы системы 5С для организации эффективного рабочего пространства.
+                    </p>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                            <span class="progress-text">45% завершено</span>
+                        </div>
+                        <a href="#" class="continue-btn">Продолжить</a>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="course-meta">
+                        <span><i class="far fa-clock"></i> 8 ч</span>
+                        <span><i class="fas fa-book"></i> 5 модулей</span>
+                        <span><i class="fas fa-star"></i> 5 баллов</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Другие курсы -->
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-badge" style="background-color: #2196F3;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="course-title-wrapper">
+                        <h3 class="course-title">Безопасность на производстве</h3>
+                        <span class="course-status completed">Завершен</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <p class="course-description">
+                        Техника безопасности и охрана труда на промышленных предприятиях.
+                    </p>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                            <span class="progress-text">100% завершено</span>
+                        </div>
+                        <a href="#" class="review-btn">Повторить</a>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="course-meta">
+                        <span><i class="far fa-clock"></i> 6 ч</span>
+                        <span><i class="fas fa-book"></i> 4 модуля</span>
+                        <span><i class="fas fa-star"></i> 4 балла</span>
+                    </div>
+                    <div class="course-result">
+                        <span class="result-score">92%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-header">
+                    <div class="course-badge" style="background-color: #FF9800;">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="course-title-wrapper">
+                        <h3 class="course-title">Работа с промышленным оборудованием</h3>
+                        <span class="course-status active">В процессе</span>
+                    </div>
+                </div>
+                <div class="course-body">
+                    <p class="course-description">
+                        Правила эксплуатации и обслуживания промышленного оборудования.
+                    </p>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%;"></div>
+                            </div>
+                            <span class="progress-text">30% завершено</span>
+                        </div>
+                        <a href="#" class="continue-btn">Продолжить</a>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="course-meta">
+                        <span><i class="far fa-clock"></i> 10 ч</span>
+                        <span><i class="fas fa-book"></i> 7 модулей</span>
+                        <span><i class="fas fa-star"></i> 8 баллов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

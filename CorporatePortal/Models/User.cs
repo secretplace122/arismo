@@ -85,5 +85,6 @@
         public string FullName { get; set; }
         public int Portions { get; set; } // Количество порций
         public DateTime OrderDate { get; set; } // Дата заказа
+        public DateTime DeliveryDate { get; set; }
     }
 }

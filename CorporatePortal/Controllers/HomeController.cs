@@ -21,7 +21,6 @@ public class HomeController : Controller
         return View();
     }
     [Authorize]
-    [Authorize]
     public IActionResult PersonalCabinet()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -101,6 +100,10 @@ public class HomeController : Controller
         return View();
     }
     public IActionResult Contacts() // контакты
+    {
+        return View();
+    }
+    public IActionResult Courses() // курсы
     {
         return View();
     }

@@ -16,7 +16,7 @@ public class Database
             connection.Open();
             var command = connection.CreateCommand();
 
-            // Таблица пользователей (уже есть у вас)
+            // Таблица пользователей
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS Users (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,8 +27,6 @@ public class Database
                     IsActive BOOLEAN DEFAULT TRUE
                 );";
             command.ExecuteNonQuery();
-
-            // Остальные таблицы вы создали вручную, поэтому их создание пропускаем
         }
     }
 
@@ -591,7 +589,27 @@ public class Database
         }
     }
     // ============ МЕТОДЫ ДЛЯ РАБОТЫ С ОБЕДАМИ ============
+    public void AddOrder(LunchOrder order)
+    {
+        using (var connection = new SqliteConnection(ConnectionString))
+        {
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+            INSERT INTO LunchOrders 
+                (EmployeeId, FullName, Portions, OrderDate, DeliveryDate)
+            VALUES 
+                ($employeeId, $fullName, $portions, $orderDate, $deliveryDate)";
 
+            command.Parameters.AddWithValue("$employeeId", order.EmployeeId);
+            command.Parameters.AddWithValue("$fullName", order.FullName);
+            command.Parameters.AddWithValue("$portions", order.Portions);
+            command.Parameters.AddWithValue("$orderDate", order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            command.Parameters.AddWithValue("$deliveryDate", order.DeliveryDate.ToString("yyyy-MM-dd"));
+
+            command.ExecuteNonQuery();
+        }
+    }
     public List<LunchOrder> GetTodayOrders()
     {
         var today = DateTime.Now.Date;

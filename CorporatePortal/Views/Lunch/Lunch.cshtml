@@ -6,60 +6,75 @@
     ViewBag.HeaderTitle = "Заказ обедов";
     Layout = "_Layout";
 
+    // Безопасное получение значений из ViewBag
+    var hasOrder = ViewBag.HasOrder as bool? ?? false;
+    var isOrderAvailable = ViewBag.IsOrderAvailable as bool? ?? false;
+    var orderDate = ViewBag.OrderDate as string ?? DateTime.Now.ToString("dd.MM.yyyy");
+    var orderDay = ViewBag.OrderDay as string ?? "сегодня";
+    var currentDay = ViewBag.CurrentDay as DayOfWeek? ?? DateTime.Now.DayOfWeek;
+    var currentHour = ViewBag.CurrentHour as int? ?? DateTime.Now.Hour;
+
     var currentPortions = Model?.FirstOrDefault()?.Portions ?? 1;
-    var minPortions = ViewBag.HasOrder ? 0 : 1;
-    var isExistingOrder = ViewBag.HasOrder;
+    var minPortions = hasOrder ? 0 : 1;
 }
 
 <div class="lunch-page-container">
     <div class="container-with-button">
         <h2 class="page-title">Заказ обедов</h2>
-        <button onclick="window.location.href='@Url.Action("Index", "Home")'"
-                class="back-button"
-                id="backButton">
+        <a href="@Url.Action("Index", "Home")" class="back-button">
             <i class="fas fa-arrow-left"></i> Назад
-        </button>
+        </a>
     </div>
 
     <div class="content-card">
-        @if (!ViewBag.IsOrderAvailable)
+        @if (!isOrderAvailable)
         {
-            <div class="info-message">
-                <i class="fas fa-info-circle"></i>
-                <span>Заказы обедов недоступны в пятницу и субботу.</span>
-            </div>
-        }
-        else if (ViewBag.IsSunday)
-        {
-            <div class="info-message">
-                <i class="fas fa-info-circle"></i>
-                <span>Сегодня воскресенье. Вы можете заказать обед на понедельник.</span>
+            <div class="info-message warning">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>
+                    @if (currentDay == DayOfWeek.Friday)
+                    {
+                        <text>Заказы недоступны в пятницу.</text>
+                    }
+                    else if (currentDay == DayOfWeek.Saturday)
+                    {
+                        <text>Заказы недоступны в субботу.</text>
+                    }
+                    else if (currentDay == DayOfWeek.Thursday && currentHour >= 17)
+                    {
+                        <text>Заказы на пятницу недоступны после 17:00 в четверг.</text>
+                    }
+                </span>
             </div>
         }
         else
         {
             <div class="order-info">
-                <p>Здесь вы можете заказать обед. Сегодня заказываете — завтра получаете. Заказ обедов на завтра осуществляется до 17:00.</p>
+                <p>
+                    <i class="fas fa-info-circle"></i>
+                    Здесь вы можете заказать обед. Сегодня заказываете — получаете @orderDay (@orderDate).
+                    @if (currentDay == DayOfWeek.Sunday)
+                    {
+                        <text>Воскресные заказы будут доставлены в понедельник.</text>
+                    }
+                    Заказ обедов осуществляется до 17:00.
+                </p>
             </div>
-        }
 
-        @if (ViewBag.IsOrderAvailable)
-        {
             <div class="order-form">
-                <form method="post" asp-controller="Lunch" asp-action="@(isExistingOrder ? "EditOrder" : "PlaceOrder")"
-                      onsubmit="return validatePortions(@(isExistingOrder ? "true" : "false"))">
+                <form method="post" asp-controller="Lunch" asp-action="PlaceOrder">
                     <div class="form-field">
                         <label class="field-label">Количество порций:</label>
                         <div class="portion-control-container">
                             <div class="portion-control">
                                 <button type="button" class="portion-btn" id="decreasePortion">-</button>
                                 <input type="number" id="portions" name="portions"
-                                       value="@currentPortions" min="@minPortions" readonly
-                                       class="portion-input" />
+                                       value="@(Model.FirstOrDefault()?.Portions ?? 1)"
+                                       min="0" max="10" class="portion-input" />
                                 <button type="button" class="portion-btn" id="increasePortion">+</button>
                             </div>
                             <button type="submit" class="submit-button">
-                                @(isExistingOrder ? "Изменить заказ" : "Заказать обед")
+                                @(Model.Any() ? "Изменить заказ" : "Заказать обед")
                             </button>
                         </div>
                     </div>
@@ -68,7 +83,7 @@
         }
 
         <div class="orders-list">
-            <h3 class="orders-title">Список заказов на сегодня:</h3>
+            <h3 class="orders-title">Список заказов на @orderDay:</h3>
             @if (Model != null && Model.Any())
             {
                 <ul class="orders-items">
@@ -83,39 +98,24 @@
             }
             else
             {
-                <p class="no-orders">Заказов на сегодня нет.</p>
+                <p class="no-orders">Заказов пока нет.</p>
             }
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('increasePortion')?.addEventListener('click', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         const input = document.getElementById('portions');
-        if (input) input.value = parseInt(input.value) + 1;
-    });
+        const decreaseBtn = document.getElementById('decreasePortion');
+        const increaseBtn = document.getElementById('increasePortion');
 
-    document.getElementById('decreasePortion')?.addEventListener('click', function () {
-        const input = document.getElementById('portions');
-        const min = @minPortions;
-        if (input && parseInt(input.value) > min) {
-            input.value = parseInt(input.value) - 1;
-        }
-    });
+        decreaseBtn.addEventListener('click', () => {
+            input.value = Math.max(0, parseInt(input.value) - 1);
+        });
 
-    function validatePortions(isExistingOrder) {
-        const portions = parseInt(document.getElementById('portions').value);
-        const errorElement = document.getElementById('error-message');
-
-        if (!isExistingOrder && portions < 1) {
-            errorElement.style.display = 'block';
-            return false;
-        }
-        errorElement.style.display = 'none';
-        return true;
-    }
-    document.getElementById('backButton')?.addEventListener('click', function (e) {
-        this.style.pointerEvents = 'none';
-        this.style.opacity = '0.7';
+        increaseBtn.addEventListener('click', () => {
+            input.value = Math.min(10, parseInt(input.value) + 1);
+        });
     });
 </script>
