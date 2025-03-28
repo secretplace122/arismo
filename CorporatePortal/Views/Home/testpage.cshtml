@@ -66,6 +66,12 @@
                         <div class="test-status in-progress">
                             <i class="fas fa-spinner"></i>
                             <span>В процессе</span>
+                            <a asp-controller="Home" asp-action="Test"
+                               asp-route-id="1"
+                               asp-route-resultId="@test1Result.Id"
+                               class="btn-continue-test">
+                                Продолжить тест
+                            </a>
                         </div>
                     }
                 </div>

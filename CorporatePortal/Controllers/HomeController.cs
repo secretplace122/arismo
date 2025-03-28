@@ -175,7 +175,8 @@ public class HomeController : Controller
             return RedirectToAction("Error", new { message = "Результат теста не найден" });
         }
 
-        if (result.IsCompleted || result.IsFailedByTime)
+        // Измененная проверка - разрешаем продолжать только если тест не завершен
+        if (result.IsCompleted)
         {
             return RedirectToAction("TestResults", new { resultId = resultId });
         }

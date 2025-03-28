@@ -175,6 +175,31 @@ public class TelegramBot
                 await botClient.SendTextMessageAsync(chatId, "Неверные параметры графика. Используйте: /setschedule <userId> <5/2|2/2> <1|2>", cancellationToken: cancellationToken);
             }
         }
+        else if (parts[0] == "/resettests" && parts.Length >= 2)
+        {
+            var userId = int.Parse(parts[1]);
+            int testId = 0;
+
+            if (parts.Length == 3)
+            {
+                testId = int.Parse(parts[2]);
+            }
+
+            _database.ResetTestResults(userId, testId);
+
+            if (testId == 0)
+            {
+                await botClient.SendTextMessageAsync(chatId,
+                    $"Все результаты тестов пользователя {userId} сброшены.",
+                    cancellationToken: cancellationToken);
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(chatId,
+                    $"Результаты теста {testId} пользователя {userId} сброшены.",
+                    cancellationToken: cancellationToken);
+            }
+        }
         else if (parts[0] == "/getschedule" && parts.Length == 2)
         {
             var userId = int.Parse(parts[1]);
@@ -214,6 +239,7 @@ public class TelegramBot
 /updatepoints <userId> <points> - Обновить очки пользователя
 /setschedule <userId> <5/2|2/2> <1|2> - Установить график работы
 /getschedule <userId> - Получить график работы пользователя
+/resettests <userId> [testId] - Сбросить результаты тестов (всех или конкретного)
 /a - Показать список команд
 ";
 

@@ -528,7 +528,68 @@ public class Database
         }
         return results;
     }
+    public void ResetTestResults(int userId, int testId = 0)
+    {
+        using (var connection = new SqliteConnection(ConnectionString))
+        {
+            connection.Open();
+            var command = connection.CreateCommand();
 
+            if (testId == 0)
+            {
+                // Сбросить все тесты пользователя
+                command.CommandText = @"
+                DELETE FROM TestResults 
+                WHERE UserId = $userId";
+            }
+            else
+            {
+                // Сбросить конкретный тест пользователя
+                command.CommandText = @"
+                DELETE FROM TestResults 
+                WHERE UserId = $userId AND TestId = $testId";
+                command.Parameters.AddWithValue("$testId", testId);
+            }
+
+            command.Parameters.AddWithValue("$userId", userId);
+            command.ExecuteNonQuery();
+        }
+    }
+    public TestResult GetActiveTestResult(int userId, int testId)
+    {
+        using (var connection = new SqliteConnection(ConnectionString))
+        {
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+            SELECT * FROM TestResults
+            WHERE UserId = $userId AND TestId = $testId 
+            AND IsCompleted = 0 AND IsFailedByTime = 0
+            ORDER BY StartTime DESC
+            LIMIT 1";
+            command.Parameters.AddWithValue("$userId", userId);
+            command.Parameters.AddWithValue("$testId", testId);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return new TestResult
+                    {
+                        Id = reader.GetInt32(0),
+                        UserId = reader.GetInt32(1),
+                        TestId = reader.GetInt32(2),
+                        Score = reader.GetInt32(3),
+                        StartTime = reader.GetDateTime(4),
+                        EndTime = reader.IsDBNull(5) ? null : (DateTime?)reader.GetDateTime(5),
+                        IsCompleted = reader.GetBoolean(6),
+                        IsFailedByTime = reader.GetBoolean(7)
+                    };
+                }
+            }
+            return null;
+        }
+    }
     // ============ МЕТОДЫ ДЛЯ РАБОТЫ С ОБЕДАМИ ============
 
     public List<LunchOrder> GetTodayOrders()

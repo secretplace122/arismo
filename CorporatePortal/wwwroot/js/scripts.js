@@ -118,3 +118,32 @@ function goBack() {
         window.location.href = '/'; // Перенаправляем на главную если нет истории
     }
 }
+// Показываем лоадер при переходе по ссылкам
+document.addEventListener('DOMContentLoaded', function () {
+    const links = document.querySelectorAll('a[href^="/"], a[href^="http"]:not([target="_blank"])');
+    const loader = document.querySelector('.page-loader');
+
+    links.forEach(link => {
+        link.addEventListener('click', function (e) {
+            // Исключаем якорные ссылки и ссылки с data-no-loader
+            if (!this.getAttribute('href').startsWith('#') &&
+                !this.hasAttribute('data-no-loader')) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+
+                // Показываем лоадер
+                loader.classList.add('active');
+
+                // Задержка для демонстрации лоадера (можно убрать)
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 150);
+            }
+        });
+    });
+
+    // Скрываем лоадер при полной загрузке страницы
+    window.addEventListener('load', function () {
+        loader.classList.remove('active');
+    });
+});
