@@ -52,10 +52,17 @@
             <div class="order-info">
                 <p>
                     <i class="fas fa-info-circle"></i>
-                    Здесь вы можете заказать обед. Сегодня заказываете — получаете @orderDay (@orderDate).
                     @if (currentDay == DayOfWeek.Sunday)
                     {
-                        <text>Воскресные заказы будут доставлены в понедельник.</text>
+                        <text>Воскресные заказы до 17:00 будут доставлены в понедельник.</text>
+                    }
+                    else if (currentHour < 17)
+                    {
+                        <text>Сегодня заказываете — получаете завтра (@orderDate).</text>
+                    }
+                    else
+                    {
+                        <text>Сегодня заказываете — получаете @orderDay (@orderDate).</text>
                     }
                     Заказ обедов осуществляется до 17:00.
                 </p>
@@ -104,18 +111,21 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const input = document.getElementById('portions');
-        const decreaseBtn = document.getElementById('decreasePortion');
-        const increaseBtn = document.getElementById('increasePortion');
+@if (isOrderAvailable)
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('portions');
+            const decreaseBtn = document.getElementById('decreasePortion');
+            const increaseBtn = document.getElementById('increasePortion');
 
-        decreaseBtn.addEventListener('click', () => {
-            input.value = Math.max(0, parseInt(input.value) - 1);
-        });
+            decreaseBtn.addEventListener('click', () => {
+                input.value = Math.max(0, parseInt(input.value) - 1);
+            });
 
-        increaseBtn.addEventListener('click', () => {
-            input.value = Math.min(10, parseInt(input.value) + 1);
+            increaseBtn.addEventListener('click', () => {
+                input.value = Math.min(10, parseInt(input.value) + 1);
+            });
         });
-    });
-</script>
+    </script>
+}

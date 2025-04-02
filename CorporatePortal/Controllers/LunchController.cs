@@ -27,9 +27,15 @@ public class LunchController : Controller
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var orders = _database.GetTodayOrders().Where(o => o.EmployeeId == userId).ToList();
-        
+
+        // Получаем информацию о дате доставки
+        var dateInfo = GetOrderTargetDateInfo();
+
         ViewBag.IsOrderAvailable = IsOrderAvailable();
         ViewBag.CurrentDay = DateTime.Now.DayOfWeek;
+        ViewBag.CurrentHour = DateTime.Now.Hour;
+        ViewBag.OrderDate = dateInfo.Date;  // Формат "dd.MM.yyyy"
+        ViewBag.OrderDay = dateInfo.DayOfWeek; // "понедельник", "вторник" и т.д.
 
         return View(orders);
     }
@@ -60,7 +66,13 @@ public class LunchController : Controller
             return false;
         }
 
-        // Все остальные случаи (включая воскресенье) - доступно
+        // В воскресенье после 17:00 - недоступно ( для того что бы не заказывали на вторник(может уберу в последующем))
+        if (currentDay == DayOfWeek.Sunday && currentHour >= 17)
+        {
+            return false;
+        }
+
+        // Все остальные случаи - доступно
         return true;
     }
 
